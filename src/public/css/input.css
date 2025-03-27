@@ -1,1 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap");
 @import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-exo: "Exo 2", sans-serif;
+
+  /* Colors */
+  --color-fondo-principal: #0b0f19;
+  --color-fondo-secundario: #1f2937;
+  --color-lunar-principal: #d1d5db;
+  --color-acento-lunar: #38bdf8;
+  --color-acento-cosmico: #8b5cf6;
+  --color-texto-principal: #f9fafb;
+  --color-texto-secundario: #94a3b8;
+  --color-boton-cta: #38bdf8;
+  --color-hover-glow: #67e8f9;
+}

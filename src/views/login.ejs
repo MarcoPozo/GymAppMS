@@ -1,0 +1,32 @@
+<%- include("partials/header.ejs") %>
+
+<main class="min-h-screen flex items-center justify-center bg-[var(--color-fondo-principal)] px-4">
+  <div class="w-full max-w-md bg-[var(--color-fondo-secundario)] rounded-2xl shadow-lg p-8 space-y-6">
+    <h1 class="text-3xl font-bold text-center text-[var(--color-texto-principal)] font-orbitron">
+      Iniciar Sesión
+    </h1>
+
+    <form action="/login" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-[var(--color-texto-secundario)] mb-1" for="email">Correo Electrónico</label>
+        <input type="email" name="email" id="email" required autocomplete="off" class="w-full p-3 rounded-lg bg-[#111827] text-[var(--color-texto-principal)] placeholder:text-[var(--color-texto-secundario)] focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" placeholder="ejemplo@correo.com" />
+      </div>
+
+      <div>
+        <label class="block text-[var(--color-texto-secundario)] mb-1" for="password">Contraseña</label>
+        <input type="password" name="password" id="password" required class="w-full p-3 rounded-lg bg-[#111827] text-[var(--color-texto-principal)] placeholder:text-[var(--color-texto-secundario)] focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" placeholder="••••••••" />
+      </div>
+
+      <button type="submit" class="w-full py-3 font-semibold rounded-lg transition duration-300 bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black">
+        Acceder
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-[var(--color-texto-secundario)]">
+      ¿No tienes cuenta?
+      <a href="/register" class="text-[var(--color-acento-cosmico)] hover:underline">Regístrate</a>
+    </p>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

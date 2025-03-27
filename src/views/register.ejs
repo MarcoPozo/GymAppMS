@@ -1,0 +1,30 @@
+<%- include("partials/header.ejs") %>
+
+<section class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] flex items-center justify-center px-4">
+  <div class="bg-[var(--color-fondo-secundario)] p-8 rounded-2xl shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center font-orbitron">Registro</h2>
+
+    <form action="/register" method="POST" class="space-y-4">
+      <input type="text" name="full_name" placeholder="Nombre completo" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+
+      <input type="text" name="cedula" placeholder="Cédula" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+
+      <input type="text" name="phone" placeholder="Teléfono" class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+
+      <input type="text" name="address" placeholder="Dirección" class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+
+      <input type="email" name="email" placeholder="Correo electrónico" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+
+      <input type="password" name="password" placeholder="Contraseña" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+
+      <button type="submit" class="w-full bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-3 rounded-lg transition">Registrarse</button>
+    </form>
+
+    <p class="text-center mt-4 text-[var(--color-texto-secundario)]">
+      ¿Ya tienes cuenta? <a href="/login" class="text-[var(--color-acento-cosmico)] font-semibold">Iniciar sesión</a>
+    </p>
+  </div>
+</section>
+
+
+<%- include('partials/footer') %>
