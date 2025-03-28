@@ -17,13 +17,14 @@ export const registerUser = async (req, res) => {
 
   try {
     await createUser({ full_name, cedula, phone, address, email, password });
-    res.redirect("/login?success=1");
+    req.session.successMessage =
+      "Usuario registrado correctamente. ¡Ahora inicia sesión!";
+    res.redirect("/login");
   } catch (error) {
     console.error("Error al registrar usuario:", error);
 
-    res.status(500).render("register", {
-      title: "Registrarse",
-      errorMessage: "Error interno al registrar. Inténtalo nuevamente",
-    });
+    req.session.errorMessage =
+      "Error interno al registrar. Inténtalo nuevamente";
+    res.redirect("/register");
   }
 };

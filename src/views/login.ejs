@@ -31,13 +31,12 @@
 
 <%- include('partials/footer') %>
 
-<% if (success) { %>
+<% if (successMessage) { %>
 <script>
   Swal.fire({
     icon: "success",
-    title: "¡Registro exitoso! ✅",
-    text: "Ahora puedes iniciar sesión.",
-    timer: 3000,
+    title: "Registro Exitoso ✅",
+    text: "<%= successMessage %>",
     showConfirmButton: true,
   });
 </script>
