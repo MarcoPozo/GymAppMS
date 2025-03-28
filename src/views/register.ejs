@@ -17,14 +17,26 @@
 
       <input type="password" name="password" placeholder="Contraseña" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
 
-      <button type="submit" class="w-full bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-3 rounded-lg transition">Registrarse</button>
+      <button type="submit" class="w-full bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-3 rounded-lg transition">
+        Registrarse
+      </button>
     </form>
 
     <p class="text-center mt-4 text-[var(--color-texto-secundario)]">
-      ¿Ya tienes cuenta? <a href="/login" class="text-[var(--color-acento-cosmico)] font-semibold">Iniciar sesión</a>
+      ¿Ya tienes cuenta?
+      <a href="/login" class="text-[var(--color-acento-cosmico)] font-semibold">Iniciar sesión</a>
     </p>
   </div>
 </section>
 
+<%- include('partials/footer') %> 
 
-<%- include('partials/footer') %>
+<% if (errorMessage) { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Error",
+    text: "<%= errorMessage %>",
+  });
+</script>
+<% } %>
