@@ -33,3 +33,17 @@ export const createUser = async ({
     [roleId]
   );
 };
+
+export const findUserByCedula = async (cedula) => {
+  const [rows] = await db.execute("SELECT * FROM users WHERE cedula = ?", [
+    cedula,
+  ]);
+  return rows.length > 0;
+};
+
+export const findUserByEmail = async (email) => {
+  const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
+    email,
+  ]);
+  return rows.length > 0;
+};

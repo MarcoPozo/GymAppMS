@@ -1,23 +1,44 @@
 <%- include("partials/header.ejs") %>
 
-<section class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] flex items-center justify-center px-4">
-  <div class="bg-[var(--color-fondo-secundario)] p-8 rounded-2xl shadow-md w-full max-w-md">
+<section class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] flex items-center justify-center p-4">
+  <div class="bg-[var(--color-fondo-secundario)] p-8 rounded-xl shadow-md w-full max-w-md">
     <h2 class="text-2xl font-bold mb-6 text-center font-orbitron">Registro</h2>
 
     <form action="/register" method="POST" class="space-y-4">
-      <input type="text" name="full_name" placeholder="Nombre completo" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+      <input type="text" name="full_name" value="<%= oldData?.full_name || '' %>" placeholder="Nombre completo" required class="w-full p-3 rounded-sm bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
 
-      <input type="text" name="cedula" placeholder="Cédula" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+      <input type="text" name="cedula" value="<%= oldData?.cedula|| '' %>" placeholder="Cédula" required class="w-full p-3 rounded-sm bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+      <% if(errors){ 
+        const error = errors.find(e => e.path === "cedula");
+        if(error) {%>
+      <p class="text-red-500 text-sm mt-1">
+        <i class="fa-solid fa-triangle-exclamation pr-2"></i><%= error.msg %>
+      </p>
+      <% }} %>
 
-      <input type="text" name="phone" placeholder="Teléfono" class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+      <input type="text" name="phone" value="<%= oldData?.phone || '' %>" placeholder="Teléfono" class="w-full p-3 rounded-sm bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
 
-      <input type="text" name="address" placeholder="Dirección" class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+      <input type="text" name="address" value="<%= oldData?.address || '' %>" placeholder="Dirección" class="w-full p-3 rounded-sm bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
 
-      <input type="email" name="email" placeholder="Correo electrónico" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+      <input type="email" name="email" value="<%= oldData?.email || '' %>" placeholder="Correo electrónico" required class="w-full p-3 rounded-sm bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+      <% if (errors) {
+        const error = errors.find(e => e.path === "email");
+        if (error) { %>
+      <p class="text-red-500 text-sm mt-1">
+        <i class="fa-solid fa-triangle-exclamation pr-2"></i><%= error.msg %>
+      </p>
+      <% }} %>
 
-      <input type="password" name="password" placeholder="Contraseña" required class="w-full p-3 rounded-lg bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none" />
+      <input type="password" name="password" placeholder="Contraseña" required class="w-full p-3 rounded-sm bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+      <% if (errors && Array.isArray(errors)) {
+        const error = errors.find(e => e.path === "password");
+        if (error) { %>
+      <p class="text-red-500 text-sm">
+        <i class="fa-solid fa-triangle-exclamation pr-2"></i><%= error.msg %>
+      </p>
+      <% }} %>
 
-      <button type="submit" class="w-full bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-3 rounded-lg transition">
+      <button type="submit" class="w-full bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-3 rounded-sm transition">
         Registrarse
       </button>
     </form>
@@ -29,7 +50,7 @@
   </div>
 </section>
 
-<%- include('partials/footer') %> 
+<%- include('partials/footer') %>
 
 <% if (errorMessage) { %>
 <script>

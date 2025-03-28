@@ -11,18 +11,17 @@ router.get("/", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  const { success } = req.query;
   res.render("login", {
     title: "Iniciar Sesión",
-    success,
   });
 });
 
 router.get("/register", (req, res) => {
   res.render("register", {
     title: "Registrar",
-    errorMessage: null,
+    errors: [],
     oldData: {},
+    errorMessage: null,
   });
 });
 
