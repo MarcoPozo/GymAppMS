@@ -1,5 +1,5 @@
 import { db } from "../config/db.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 export const createUser = async ({
   full_name,
@@ -46,4 +46,18 @@ export const findUserByEmail = async (email) => {
     email,
   ]);
   return rows.length > 0;
+};
+
+export const getUserWithRoleByEmail = async (email) => {
+  const [rows] = await db.execute(
+    `
+    SELECT users.*, roles.name as role
+    FROM users
+    JOIN user_roles ON users.id = user_roles.user_id
+    JOIN roles ON roles.id = user_roles.role_id
+    WHERE users.email = ?`,
+    [email]
+  );
+
+  return rows[0];
 };

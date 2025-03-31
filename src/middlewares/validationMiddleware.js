@@ -1,6 +1,7 @@
 import { body } from "express-validator";
 import { findUserByCedula, findUserByEmail } from "../models/userModel.js";
 
+/* Validaciones de registro */
 export const validatorRegister = [
   body("full_name").notEmpty().withMessage("El nombre completo es obligatorio"),
 
@@ -31,4 +32,13 @@ export const validatorRegister = [
   body("password")
     .isLength({ min: 6 })
     .withMessage("La contraseña debe tener al menos 6 caracteres"),
+];
+
+/* Validaciones de login */
+export const validatorLogin = [
+  body("email").trim().isEmail().withMessage("Debes ingresar un correo valido"),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria"),
 ];
