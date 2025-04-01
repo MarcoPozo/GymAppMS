@@ -1,0 +1,18 @@
+<nav class="bg-[var(--color-fondo-secundario)] text-[var(--color-texto-principal)] px-6 py-4 flex justify-between items-center shadow-md">
+  <!-- Logo o nombre -->
+  <div class="text-xl font-bold tracking-wide text-[var(--color-acento-lunar)]">
+    GymAppMS
+  </div>
+
+  <!-- Sección usuario -->
+  <div class="flex items-center gap-4">
+    <span class="text-sm">Bienvenido, <%= user.full_name %></span>
+
+    <!-- Botón de logout -->
+    <form action="/logout" method="POST">
+      <button type="submit" class="bg-[var(--color-boton-cta)] text-white px-4 py-2 rounded hover:bg-[var(--color-hover-glow)] transition">
+        Cerrar sesión
+      </button>
+    </form>
+  </div>
+</nav>

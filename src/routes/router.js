@@ -51,4 +51,14 @@ router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {
   });
 });
 
+router.post("/logout", (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      console.error("Error al cerrar sesión:", error);
+      return res.status(500).send("Error al cerrar sesión");
+    }
+    res.redirect("/login");
+  });
+});
+
 export default router;
