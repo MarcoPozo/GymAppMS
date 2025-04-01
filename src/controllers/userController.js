@@ -51,21 +51,15 @@ export const loginUser = async (req, res) => {
     const user = await getUserWithRoleByEmail(email);
 
     if (!user) {
-      return res.status(400).render("login", {
-        title: "Iniciar Sesión",
-        errorMessage: "Correo no registrado",
-        oldData: req.body,
-      });
+      req.session.errorMessage = "Correo no registrado";
+      return res.redirect("/login");
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
 
-    if (!isMatch) {
-      return res.status(400).render("login", {
-        title: "Iniciar Sesión",
-        errorMessage: "Contraseña incorrecta",
-        oldData: req.body,
-      });
+    if (!match) {
+      req.session.errorMessage = "Contraseña incorrecta";
+      return res.redirect("/login");
     }
 
     // Guardar sesión
@@ -84,9 +78,7 @@ export const loginUser = async (req, res) => {
     }
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
-    return res.status(500).render("login", {
-      title: "Iniciar Sesión",
-      errorMessage: "Error interno. Inténtalo nuevamente.",
-    });
+    req.session.errorMessage = "Error interno. Inténtalo nuevamente.";
+    return res.redirect("/login");
   }
 };

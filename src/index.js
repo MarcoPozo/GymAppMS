@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -7,8 +8,8 @@ import {
   flashMessages,
 } from "./middlewares/sessionMiddleware.js";
 
-const port = 3000;
 const app = express();
+const port = process.env.PORT || 3000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /* Settings */
@@ -27,7 +28,9 @@ app.use(indexRoutes);
 
 /* Manage Error */
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).render("404", {
+    title: "Pagina no encontrada",
+  });
 });
 
 /* Start Server */

@@ -41,3 +41,14 @@
   });
 </script>
 <% } %>
+
+<% if (errorMessage) { %>
+<script>
+  Swal.fire({
+    icon: "error",
+    title: "Login Fallido ❌",
+    text: "<%= errorMessage %>",
+    showConfirmButton: true,
+  });
+</script>
+<% } %>
