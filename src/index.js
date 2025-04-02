@@ -3,6 +3,7 @@ import express from "express";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import indexRoutes from "./routes/router.js";
+import methodOverride from "method-override";
 import {
   sessionConfig,
   flashMessages,
@@ -20,6 +21,15 @@ app.set("views", join(__dirname, "views"));
 app.use(express.static(join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === "object" && "_method" in req.body) {
+      return req.body._method;
+    }
+  })
+);
+
 app.use(sessionConfig);
 app.use(flashMessages);
 

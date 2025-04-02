@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+<%- include('partials/navbarAdmin') %>
+
+<main class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] p-6">
+  <h1 class="text-2xl font-bold mb-6">Gestión de Usuarios</h1>
+
+  <table class="w-full border-collapse bg-[var(--color-fondo-secundario)] rounded-lg overflow-hidden">
+    <thead class="bg-[var(--color-acento-cosmico)] text-white">
+      <tr>
+        <th class="p-3 text-left">Nombre</th>
+        <th class="p-3 text-left">Cédula</th>
+        <th class="p-3 text-left">Correo</th>
+        <th class="p-3 text-left">Teléfono</th>
+        <th class="p-3 text-left">Dirección</th>
+        <th class="p-3 text-left">Rol</th>
+        <th class="p-3 text-left">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+      <tr class="border-t border-[var(--color-lunar-principal)] hover:bg-gray-800">
+        <td class="p-3"><%= user.full_name %></td>
+        <td class="p-3"><%= user.cedula %></td>
+        <td class="p-3"><%= user.email %></td>
+        <td class="p-3"><%= user.phone %></td>
+        <td class="p-3"><%= user.address %></td>
+        <td class="p-3 capitalize"><%= user.role %></td>
+        <td class="p-3">
+          <form action="/admin/usuarios/<%= user.id %>" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?')">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</main>
+
+<%- include('partials/footer') %>

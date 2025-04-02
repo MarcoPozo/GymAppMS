@@ -8,7 +8,10 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(0.637 0.237 25.331);
+    --color-red-600: oklch(0.577 0.245 27.325);
+    --color-red-700: oklch(0.505 0.213 27.518);
     --color-gray-600: oklch(0.446 0.03 256.802);
+    --color-gray-800: oklch(0.278 0.033 256.848);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -25,6 +28,7 @@
     --font-weight-bold: 700;
     --tracking-wide: 0.025em;
     --radius-sm: 0.25rem;
+    --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -186,6 +190,9 @@
   }
 }
 @layer utilities {
+  .fixed {
+    position: fixed;
+  }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
@@ -209,6 +216,9 @@
   }
   .flex {
     display: flex;
+  }
+  .hidden {
+    display: none;
   }
   .table {
     display: table;
@@ -260,8 +270,14 @@
       margin-block-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
+  .overflow-hidden {
+    overflow: hidden;
+  }
   .rounded {
     border-radius: 0.25rem;
+  }
+  .rounded-lg {
+    border-radius: var(--radius-lg);
   }
   .rounded-sm {
     border-radius: var(--radius-sm);
@@ -272,6 +288,16 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+  .border-t {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 1px;
+  }
+  .border-\[var\(--color-lunar-principal\)\] {
+    border-color: var(--color-lunar-principal);
+  }
+  .bg-\[var\(--color-acento-cosmico\)\] {
+    background-color: var(--color-acento-cosmico);
   }
   .bg-\[var\(--color-boton-cta\)\] {
     background-color: var(--color-boton-cta);
@@ -285,6 +311,9 @@
   .bg-\[var\(--color-lunar-principal\)\] {
     background-color: var(--color-lunar-principal);
   }
+  .bg-red-600 {
+    background-color: var(--color-red-600);
+  }
   .p-3 {
     padding: calc(var(--spacing) * 3);
   }
@@ -296,6 +325,9 @@
   }
   .p-8 {
     padding: calc(var(--spacing) * 8);
+  }
+  .px-3 {
+    padding-inline: calc(var(--spacing) * 3);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
@@ -324,6 +356,9 @@
   .text-center {
     text-align: center;
   }
+  .text-left {
+    text-align: left;
+  }
   .font-exo {
     font-family: var(--font-exo);
   }
@@ -349,10 +384,6 @@
   .font-\[var\(--font-exo\)\] {
     --tw-font-weight: var(--font-exo);
     font-weight: var(--font-exo);
-  }
-  .font-\[var\(--font-orbitron\)\] {
-    --tw-font-weight: var(--font-orbitron);
-    font-weight: var(--font-orbitron);
   }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
@@ -387,6 +418,9 @@
   .text-white {
     color: var(--color-white);
   }
+  .capitalize {
+    text-transform: capitalize;
+  }
   .underline {
     text-decoration-line: underline;
   }
@@ -420,6 +454,20 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-hover-glow);
+      }
+    }
+  }
+  .hover\:bg-gray-800 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-800);
+      }
+    }
+  }
+  .hover\:bg-red-700 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-red-700);
       }
     }
   }

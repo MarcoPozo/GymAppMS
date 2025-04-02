@@ -9,7 +9,7 @@ export const createUser = async ({
   email,
   password,
 }) => {
-  const hashedPassword = await bcrypt.hash(password, 10); // Se encripta la contraseña
+  const hashedPassword = await bcrypt.hash(password, 10); // Encriptado de contraseña
 
   /* Inserción usuarios */
   await db.execute(
@@ -60,4 +60,18 @@ export const getUserWithRoleByEmail = async (email) => {
   );
 
   return rows[0];
+};
+
+export const getAllUserWithRoles = async () => {
+  const [rows] = await db.execute(`
+       SELECT users.*, roles.name AS role
+      FROM users
+      JOIN user_roles ON users.id = user_roles.user_id
+      JOIN roles ON user_roles.role_id = roles.id
+    `);
+  return rows;
+};
+
+export const deleteUserById = async (id) => {
+  await db.execute("DELETE FROM users WHERE id = ?", [id]);
 };

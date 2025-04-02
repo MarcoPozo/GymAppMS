@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { registerUser, loginUser } from "../controllers/userController.js";
+import { getAllUserWithRoles, deleteUserById } from "../models/userModel.js";
 import {
   validatorRegister,
   validatorLogin,
@@ -37,6 +38,7 @@ router.get("/register", (req, res) => {
 
 router.post("/register", validatorRegister, registerUser);
 
+/* Admin */
 router.get("/admin/dashboard", isAuthenticated, isAdmin, (req, res) => {
   res.render("adminDashboard", {
     title: "Panel Administracion",
@@ -44,6 +46,33 @@ router.get("/admin/dashboard", isAuthenticated, isAdmin, (req, res) => {
   });
 });
 
+router.get("/admin/usuarios", isAuthenticated, isAdmin, async (req, res) => {
+  const users = await getAllUserWithRoles();
+  res.render("adminUsuarios", {
+    title: "Usuarios",
+    users,
+  });
+});
+
+router.delete(
+  "/admin/usuarios/:id",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      await deleteUserById(id);
+      req.session.successMessage = "Usuario eliminado correctamente";
+      res.redirect("/admin/usuarios");
+    } catch (error) {
+      console.error("Error al eliminar usuario:", error);
+      req.session.errorMessage = "Hubo un problema al eliminar el usuario";
+      res.redirect("/admin/usuarios");
+    }
+  }
+);
+
+/* Cliente */
 router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {
   res.render("clienteDashboard", {
     title: "Mi Panel",
@@ -51,6 +80,7 @@ router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {
   });
 });
 
+/* LogOut */
 router.post("/logout", (req, res) => {
   req.session.destroy((error) => {
     if (error) {
