@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+<%- include('partials/navbarAdmin') %>
+
+<main class="min-h-screen flex flex-col items-center justify-center bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] px-6 py-10">
+  <div class="w-full max-w-xl bg-[var(--color-fondo-secundario)] rounded-lg shadow-lg p-8">
+    <h1 class="text-2xl font-bold mb-6 text-center">Editar Usuario</h1>
+
+    <form action="/admin/usuarios/<%= user.id %>" method="POST" class="space-y-4">
+      <input type="hidden" name="_method" value="PUT" />
+
+      <input type="text" name="full_name" placeholder="Nombre completo" value="<%= user.full_name %>" required class="w-full p-3 rounded bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+
+      <input type="text" name="cedula" placeholder="Cédula" value="<%= user.cedula %>" required class="w-full p-3 rounded bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+
+      <input type="email" name="email" placeholder="Correo" value="<%= user.email %>" required class="w-full p-3 rounded bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+
+      <input type="text" name="phone" placeholder="Teléfono" value="<%= user.phone %>" required class="w-full p-3 rounded bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+
+      <input type="text" name="address" placeholder="Dirección" value="<%= user.address %>" required class="w-full p-3 rounded bg-[var(--color-lunar-principal)] text-black placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[var(--color-hover-glow)]" />
+
+      <div class="text-center">
+        <button type="submit" class="bg-[var(--color-acento-cosmico)] hover:bg-purple-700 text-white font-bold px-6 py-2 rounded-lg transition">
+          Guardar cambios
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

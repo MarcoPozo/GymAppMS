@@ -25,7 +25,13 @@
         <td class="p-3"><%= user.phone %></td>
         <td class="p-3"><%= user.address %></td>
         <td class="p-3 capitalize"><%= user.role %></td>
-        <td class="p-3">
+        <td class="p-3 flex gap-2">
+          <!-- Botón Editar -->
+          <a href="/admin/usuarios/<%= user.id %>/editar" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+
+          <!-- Botón Eliminar -->
           <form action="/admin/usuarios/<%= user.id %>" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?')">
             <input type="hidden" name="_method" value="DELETE" />
             <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">

@@ -1,10 +1,20 @@
 import { Router } from "express";
-import { registerUser, loginUser } from "../controllers/userController.js";
-import { getAllUserWithRoles, deleteUserById } from "../models/userModel.js";
+import {
+  registerUser,
+  loginUser,
+  editarUsuario,
+} from "../controllers/userController.js";
+import {
+  getAllUserWithRoles,
+  deleteUserById,
+  getUserById,
+} from "../models/userModel.js";
+
 import {
   validatorRegister,
   validatorLogin,
 } from "../middlewares/validationMiddleware.js";
+
 import {
   isAuthenticated,
   isAdmin,
@@ -71,6 +81,34 @@ router.delete(
     }
   }
 );
+
+router.get(
+  "/admin/usuarios/:id/editar",
+  isAuthenticated,
+  isAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const user = await getUserById(id);
+      if (!user) {
+        req.session.errorMessage = "Usuario no encontrado";
+        return res.redirect("/admin/usuarios");
+      }
+
+      res.render("adminEditarUsuario", {
+        title: "Editar Usuario",
+        user,
+        errors: [],
+      });
+    } catch (error) {
+      console.error("Error al cargar usuario:", error);
+      req.session.errorMessage = "Error al cargar la edición del usuario";
+      res.redirect("/admin/usuarios");
+    }
+  }
+);
+
+router.put("/admin/usuarios/:id", isAuthenticated, isAdmin, editarUsuario);
 
 /* Cliente */
 router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {

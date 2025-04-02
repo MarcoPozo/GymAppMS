@@ -1,11 +1,12 @@
 import { validationResult } from "express-validator";
 import {
   createUser,
-  findUserByEmail,
   getUserWithRoleByEmail,
+  updateUserById,
 } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
+/* Registrar Usuario */
 export const registerUser = async (req, res) => {
   const errors = validationResult(req);
 
@@ -34,6 +35,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
+/* Loguear Usuario */
 export const loginUser = async (req, res) => {
   const errors = validationResult(req);
 
@@ -80,5 +82,21 @@ export const loginUser = async (req, res) => {
     console.error("Error al iniciar sesión:", error);
     req.session.errorMessage = "Error interno. Inténtalo nuevamente.";
     return res.redirect("/login");
+  }
+};
+
+/* Editar Usuario */
+export const editarUsuario = async (req, res) => {
+  const { id } = req.params;
+  const { full_name, cedula, email, phone, address } = req.body;
+
+  try {
+    await updateUserById(id, { full_name, cedula, email, phone, address });
+    req.session.successMessage = "Usuario actualizado correctamente";
+    res.redirect("/admin/usuarios");
+  } catch (error) {
+    console.error("Error al actualizar usuario:", error);
+    req.session.errorMessage = "Error al actualizar usuario";
+    res.redirect("/admin/usuarios");
   }
 };

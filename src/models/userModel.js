@@ -1,6 +1,7 @@
 import { db } from "../config/db.js";
 import bcrypt from "bcrypt";
 
+/* Crear usuario */
 export const createUser = async ({
   full_name,
   cedula,
@@ -34,6 +35,7 @@ export const createUser = async ({
   );
 };
 
+/* Buscar usuario por cedula */
 export const findUserByCedula = async (cedula) => {
   const [rows] = await db.execute("SELECT * FROM users WHERE cedula = ?", [
     cedula,
@@ -41,6 +43,7 @@ export const findUserByCedula = async (cedula) => {
   return rows.length > 0;
 };
 
+/* Buscar usuario por email */
 export const findUserByEmail = async (email) => {
   const [rows] = await db.execute("SELECT * FROM users WHERE email = ?", [
     email,
@@ -48,6 +51,7 @@ export const findUserByEmail = async (email) => {
   return rows.length > 0;
 };
 
+/* Buscar datos y rol de usuario por email */
 export const getUserWithRoleByEmail = async (email) => {
   const [rows] = await db.execute(
     `
@@ -62,6 +66,7 @@ export const getUserWithRoleByEmail = async (email) => {
   return rows[0];
 };
 
+/* Buscar todos los usuarios y su rol */
 export const getAllUserWithRoles = async () => {
   const [rows] = await db.execute(`
        SELECT users.*, roles.name AS role
@@ -72,6 +77,32 @@ export const getAllUserWithRoles = async () => {
   return rows;
 };
 
+/* Borrar usuario por ID */
 export const deleteUserById = async (id) => {
   await db.execute("DELETE FROM users WHERE id = ?", [id]);
+};
+
+/* Obtener usuario por ID */
+export const getUserById = async (id) => {
+  const [rows] = await db.execute(
+    `
+      SELECT users.*, roles.name AS role 
+      FROM users 
+      JOIN user_roles ON users.id = user_roles.user_id 
+      JOIN roles ON roles.id = user_roles.role_id 
+      WHERE users.id = ?`,
+    [id]
+  );
+  return rows[0];
+};
+
+/* Actualizar usuario por ID  */
+export const updateUserById = async (
+  id,
+  { full_name, cedula, email, phone, address }
+) => {
+  await db.execute(
+    "UPDATE users SET full_name = ?, cedula = ?, email = ?, phone = ?, address = ? WHERE id = ?",
+    [full_name, cedula, email, phone, address, id]
+  );
 };
