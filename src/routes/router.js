@@ -1,34 +1,18 @@
 import { Router } from "express";
-import {
-  registerUser,
-  loginUser,
-  editarUsuario,
-} from "../controllers/userController.js";
-import {
-  getAllUserWithRoles,
-  deleteUserById,
-  getUserById,
-} from "../models/userModel.js";
-
-import {
-  validatorRegister,
-  validatorLogin,
-} from "../middlewares/validationMiddleware.js";
-
-import {
-  isAuthenticated,
-  isAdmin,
-  isClient,
-} from "../middlewares/authMiddleware.js";
+import { isAuthenticated, isAdmin, isClient } from "../middlewares/authMiddleware.js";
+import { validatorRegister, validatorLogin } from "../middlewares/validationMiddleware.js";
+import { registerUser, loginUser, editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/userController.js";
 
 const router = Router();
 
+/* Raiz */
 router.get("/", (req, res) => {
   res.render("index", {
     title: "Inicio",
   });
 });
 
+/* Login */
 router.get("/login", (req, res) => {
   res.render("login", {
     title: "Iniciar Sesión",
@@ -37,6 +21,7 @@ router.get("/login", (req, res) => {
 
 router.post("/login", validatorLogin, loginUser);
 
+/* Register */
 router.get("/register", (req, res) => {
   res.render("register", {
     title: "Registrar",
@@ -56,59 +41,13 @@ router.get("/admin/dashboard", isAuthenticated, isAdmin, (req, res) => {
   });
 });
 
-router.get("/admin/usuarios", isAuthenticated, isAdmin, async (req, res) => {
-  const users = await getAllUserWithRoles();
-  res.render("adminUsuarios", {
-    title: "Usuarios",
-    users,
-  });
-});
+router.get("/admin/usuarios", isAuthenticated, isAdmin, renderUsuariosAdmin);
 
-router.delete(
-  "/admin/usuarios/:id",
-  isAuthenticated,
-  isAdmin,
-  async (req, res) => {
-    const { id } = req.params;
-    try {
-      await deleteUserById(id);
-      req.session.successMessage = "Usuario eliminado correctamente";
-      res.redirect("/admin/usuarios");
-    } catch (error) {
-      console.error("Error al eliminar usuario:", error);
-      req.session.errorMessage = "Hubo un problema al eliminar el usuario";
-      res.redirect("/admin/usuarios");
-    }
-  }
-);
+router.delete("/admin/usuarios/:id", isAuthenticated, isAdmin, eliminarUsuario);
 
-router.get(
-  "/admin/usuarios/:id/editar",
-  isAuthenticated,
-  isAdmin,
-  async (req, res) => {
-    const { id } = req.params;
-    try {
-      const user = await getUserById(id);
-      if (!user) {
-        req.session.errorMessage = "Usuario no encontrado";
-        return res.redirect("/admin/usuarios");
-      }
+router.get("/admin/usuarios/:id/editar", isAuthenticated, isAdmin, renderEditarUsuario);
 
-      res.render("adminEditarUsuario", {
-        title: "Editar Usuario",
-        user,
-        errors: [],
-      });
-    } catch (error) {
-      console.error("Error al cargar usuario:", error);
-      req.session.errorMessage = "Error al cargar la edición del usuario";
-      res.redirect("/admin/usuarios");
-    }
-  }
-);
-
-router.put("/admin/usuarios/:id", isAuthenticated, isAdmin, editarUsuario);
+router.put("/admin/usuarios/:id", validatorRegister, isAuthenticated, isAdmin, editarUsuario);
 
 /* Cliente */
 router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {

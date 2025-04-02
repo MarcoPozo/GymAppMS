@@ -1,10 +1,6 @@
-import { validationResult } from "express-validator";
-import {
-  createUser,
-  getUserWithRoleByEmail,
-  updateUserById,
-} from "../models/userModel.js";
 import bcrypt from "bcrypt";
+import { validationResult } from "express-validator";
+import { createUser, deleteUserById, getAllUserWithRoles, getUserById, getUserWithRoleByEmail, updateUserById } from "../models/userModel.js";
 
 /* Registrar Usuario */
 export const registerUser = async (req, res) => {
@@ -23,14 +19,12 @@ export const registerUser = async (req, res) => {
 
   try {
     await createUser({ full_name, cedula, phone, address, email, password });
-    req.session.successMessage =
-      "Usuario registrado correctamente. ¡Ahora inicia sesión!";
+    req.session.successMessage = "Usuario registrado correctamente. ¡Ahora inicia sesión!";
     res.redirect("/login");
   } catch (error) {
     console.error("Error al registrar usuario:", error);
 
-    req.session.errorMessage =
-      "Error interno al registrar. Inténtalo nuevamente";
+    req.session.errorMessage = "Error interno al registrar. Inténtalo nuevamente";
     res.redirect("/register");
   }
 };
@@ -82,6 +76,57 @@ export const loginUser = async (req, res) => {
     console.error("Error al iniciar sesión:", error);
     req.session.errorMessage = "Error interno. Inténtalo nuevamente.";
     return res.redirect("/login");
+  }
+};
+
+/* Eliminar usuario */
+export const eliminarUsuario = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await deleteUserById(id);
+    req.session.successMessage = "Usuario eliminado correctamente";
+    res.redirect("/admin/usuarios");
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    req.session.errorMessage = "Hubo un problema al eliminar el usuario";
+    res.redirect("/admin/usuarios");
+  }
+};
+
+/* Render usuarios Admin */
+export const renderUsuariosAdmin = async (req, res) => {
+  try {
+    const users = await getAllUserWithRoles();
+    res.render("adminUsuarios", {
+      title: "Usuarios",
+      users,
+    });
+  } catch (error) {
+    console.error("Error al cargar usuarios:", error);
+    req.session.errorMessage = "Error al cargar usuarios";
+    res.redirect("/admin/dashboard");
+  }
+};
+
+/* Mostrar vista de edicion */
+export const renderEditarUsuario = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await getUserById(id);
+    if (!user) {
+      req.session.errorMessage = "Usuario no encontrado";
+      return res.redirect("/admin/usuarios");
+    }
+
+    res.render("adminEditarUsuario", {
+      title: "Editar Usuario",
+      user,
+      errors: [],
+    });
+  } catch (error) {
+    console.error("Error al cargar usuario:", error);
+    req.session.errorMessage = "Error al cargar la edición del usuario";
+    res.redirect("/admin/usuarios");
   }
 };
 

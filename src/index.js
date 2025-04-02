@@ -4,10 +4,7 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import indexRoutes from "./routes/router.js";
 import methodOverride from "method-override";
-import {
-  sessionConfig,
-  flashMessages,
-} from "./middlewares/sessionMiddleware.js";
+import { sessionConfig, flashMessages } from "./middlewares/sessionMiddleware.js";
 
 const app = express();
 const port = process.env.PORT || 3000;

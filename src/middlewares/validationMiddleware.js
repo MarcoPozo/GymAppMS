@@ -37,8 +37,5 @@ export const validatorRegister = [
 /* Validaciones de login */
 export const validatorLogin = [
   body("email").trim().isEmail().withMessage("Debes ingresar un correo valido"),
-  body("password")
-    .trim()
-    .notEmpty()
-    .withMessage("La contraseña es obligatoria"),
+  body("password").trim().notEmpty().withMessage("La contraseña es obligatoria"),
 ];
