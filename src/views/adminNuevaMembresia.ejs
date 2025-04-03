@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+<%- include('partials/navbarAdmin') %>
+
+<main class="bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] flex justify-center py-10">
+  <div class="w-full max-w-md bg-[var(--color-fondo-secundario)] p-6 rounded-lg shadow-md">
+
+    <h1 class="text-xl font-bold mb-6 text-center">Crear Nueva Membresía</h1>
+
+    <form action="/admin/membresias/nueva" method="POST" class="space-y-4">
+      <div>
+        <label class="block mb-1 text-sm font-semibold">Seleccionar Usuario</label>
+        <select name="user_id" required class="w-full rounded bg-[var(--color-lunar-principal)] text-black p-2 ">
+          <% users.forEach(user => { %>
+          <option value="<%= user.id %>"><%= user.full_name %> - <%= user.cedula %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-semibold">Fecha de Inicio</label>
+        <input type="date" name="start_date" required class="w-full rounded bg-[var(--color-lunar-principal)] text-black p-2 " />
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-semibold">Fecha de Vencimiento</label>
+        <input type="date" name="end_date" required class="w-full rounded bg-[var(--color-lunar-principal)] text-black block p-2 " />
+      </div>
+
+      <button type="submit" class="bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-bold py-2 px-4 rounded w-full">
+        Crear Membresía
+      </button>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

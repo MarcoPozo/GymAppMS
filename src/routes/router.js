@@ -2,6 +2,7 @@ import { Router } from "express";
 import { isAuthenticated, isAdmin, isClient } from "../middlewares/authMiddleware.js";
 import { validatorRegister, validatorLogin } from "../middlewares/validationMiddleware.js";
 import { registerUser, loginUser, editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/userController.js";
+import { renderMembresias, renderNuevaMembresia, crearMembresia, renovarMembresia } from "../controllers/membershipController.js";
 
 const router = Router();
 
@@ -56,6 +57,15 @@ router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {
     user: req.session.user,
   });
 });
+
+/* Membresias */
+router.get("/admin/membresias", isAuthenticated, isAdmin, renderMembresias);
+
+router.get("/admin/membresias/nueva", isAuthenticated, isAdmin, renderNuevaMembresia);
+
+router.post("/admin/membresias/nueva", isAuthenticated, isAdmin, crearMembresia);
+
+router.post("/admin/membresias/:id/renovar", isAuthenticated, isAdmin, renovarMembresia);
 
 /* LogOut */
 router.post("/logout", (req, res) => {
