@@ -24,47 +24,17 @@
       <% membresias.forEach(m => { %>
       <tr class="border-t border-[var(--color-lunar-principal)] hover:bg-gray-800">
         <td class="p-3"><%= m.full_name %> (<%= m.cedula %>)</td>
-        <td class="p-3">
-          <%= new Date(m.start_date).toLocaleDateString("es-EC", {
-            weekday: "long",
-            day: "2-digit",
-            month: "long",
-            year: "numeric"
-          }) %>
-        </td>
+        <td class="p-3"><%= m.fechaInicio %></td>
+        <td class="p-3"><%= m.fechaFin %></td>
 
-        <td class="p-3">
-          <%= new Date(m.end_date).toLocaleDateString("es-EC", {
-            weekday: "long",
-            day: "2-digit",
-            month: "long",
-            year: "numeric"
-          }) %>
-        </td>
-
-        <td class="p-3">
-          <!-- <%= new Date(m.end_date).toLocaleDateString("es-EC", {
-            weekday: "long",
-            day: "2-digit",
-            month: "long",
-            year: "numeric"
-          }) %> -->
-
-          <% 
-            const hoy = new Date();
-            const vencimiento = new Date(m.end_date);
-            const diffTime = vencimiento - hoy;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          %>
-          <p class="text-sm mt-1">
-            <% if (diffDays < 0) { %>
-            <span class="text-red-400">Venció hace <%= Math.abs(diffDays) %> días</span>
-            <% } else if (diffDays === 0) { %>
-            <span class="text-yellow-400">Vence hoy</span>
-            <% } else { %>
-            <span class="text-green-400">Faltan <%= diffDays %> días</span>
-            <% } %>
-          </p>
+        <td class="p-3 text-sm">
+          <% if (m.relativaFin.includes("Venció")) { %>
+          <span class="text-red-400"><%= m.relativaFin %></span>
+          <% } else if (m.relativaFin.includes("vence hoy")) { %>
+          <span class="text-yellow-400">Vence hoy</span>
+          <% } else { %>
+          <span class="text-green-400"><%= m.relativaFin %></span>
+          <% } %>
         </td>
 
         <td class="p-3 capitalize"><%= m.status %></td>

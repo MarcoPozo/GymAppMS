@@ -1,19 +1,5 @@
 import { deleteUserById, getAllUserWithRoles, getUserById, updateUserById } from "../models/adminUserModel.js";
 
-// Eliminar usuario
-export const eliminarUsuario = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await deleteUserById(id);
-    req.session.successMessage = "Usuario eliminado correctamente";
-    res.redirect("/admin/usuarios");
-  } catch (error) {
-    console.error("Error al eliminar usuario:", error);
-    req.session.errorMessage = "Hubo un problema al eliminar el usuario";
-    res.redirect("/admin/usuarios");
-  }
-};
-
 // Render usuarios admin
 export const renderUsuariosAdmin = async (req, res) => {
   try {
@@ -26,6 +12,20 @@ export const renderUsuariosAdmin = async (req, res) => {
     console.error("Error al cargar usuarios:", error);
     req.session.errorMessage = "Error al cargar usuarios";
     res.redirect("/admin/dashboard");
+  }
+};
+
+// Eliminar usuario
+export const eliminarUsuario = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await deleteUserById(id);
+    req.session.successMessage = "Usuario eliminado correctamente";
+    res.redirect("/admin/usuarios");
+  } catch (error) {
+    console.error("Error al eliminar usuario:", error);
+    req.session.errorMessage = "Hubo un problema al eliminar el usuario";
+    res.redirect("/admin/usuarios");
   }
 };
 

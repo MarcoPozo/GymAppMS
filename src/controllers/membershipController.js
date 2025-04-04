@@ -1,10 +1,19 @@
+import { formatearFecha, fechaRelativa } from "../utils/formatearFecha.js";
 import { getAllMemberships, getUsuariosSinMembresia, crearNuevaMembresia, renovarMembresiaPorId } from "../models/membershipModel.js";
 
 export const renderMembresias = async (req, res) => {
   const membresias = await getAllMemberships();
+
+  const membresiasFormateadas = membresias.map((membresia) => ({
+    ...membresia,
+    fechaInicio: formatearFecha(membresia.start_date),
+    fechaFin: formatearFecha(membresia.end_date),
+    relativaFin: fechaRelativa(membresia.end_date),
+  }));
+
   res.render("adminMembresias", {
     title: "Membresías",
-    membresias,
+    membresias: membresiasFormateadas,
   });
 };
 
