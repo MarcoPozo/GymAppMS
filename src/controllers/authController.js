@@ -2,6 +2,13 @@ import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 import { getUserWithRoleByEmail } from "../models/userModel.js";
 
+// Render login
+export const renderLogin = (req, res) => {
+  res.render("login", {
+    title: "Iniciar Sesión",
+  });
+};
+
 // Loguear usuario
 export const loginUser = async (req, res) => {
   const errors = validationResult(req);

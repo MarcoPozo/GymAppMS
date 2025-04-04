@@ -1,6 +1,16 @@
 import { validationResult } from "express-validator";
 import { createUser } from "../models/userModel.js";
 
+// Render registro
+export const renderRegister = (req, res) => {
+  res.render("register", {
+    title: "Registrar",
+    errors: [],
+    oldData: {},
+    errorMessage: null,
+  });
+};
+
 // Registrar usuario
 export const registerUser = async (req, res) => {
   const errors = validationResult(req);
