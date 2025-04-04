@@ -1,19 +1,22 @@
 import { Router } from "express";
 import { isAuthenticated, isAdmin, isClient } from "../middlewares/authMiddleware.js";
 import { validatorRegister, validatorLogin } from "../middlewares/validationMiddleware.js";
-import { registerUser, loginUser, editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/userController.js";
+
+import { logoutUser, loginUser } from "../controllers/authController.js";
+import { registerUser } from "../controllers/registerController.js";
+import { editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/userController.js";
 import { renderMembresias, renderNuevaMembresia, crearMembresia, renovarMembresia } from "../controllers/membershipController.js";
 
 const router = Router();
 
-/* Raiz */
+// Raiz
 router.get("/", (req, res) => {
   res.render("index", {
     title: "Inicio",
   });
 });
 
-/* Login */
+//Login
 router.get("/login", (req, res) => {
   res.render("login", {
     title: "Iniciar Sesión",
@@ -21,8 +24,9 @@ router.get("/login", (req, res) => {
 });
 
 router.post("/login", validatorLogin, loginUser);
+router.post("/logout", logoutUser);
 
-/* Register */
+// Registro
 router.get("/register", (req, res) => {
   res.render("register", {
     title: "Registrar",
@@ -34,7 +38,7 @@ router.get("/register", (req, res) => {
 
 router.post("/register", validatorRegister, registerUser);
 
-/* Admin */
+// Administrador
 router.get("/admin/dashboard", isAuthenticated, isAdmin, (req, res) => {
   res.render("adminDashboard", {
     title: "Panel Administracion",
@@ -50,7 +54,7 @@ router.get("/admin/usuarios/:id/editar", isAuthenticated, isAdmin, renderEditarU
 
 router.put("/admin/usuarios/:id", validatorRegister, isAuthenticated, isAdmin, editarUsuario);
 
-/* Cliente */
+// Cliente
 router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {
   res.render("clienteDashboard", {
     title: "Mi Panel",
@@ -58,7 +62,7 @@ router.get("/cliente/dashboard", isAuthenticated, isClient, (req, res) => {
   });
 });
 
-/* Membresias */
+//Membresias
 router.get("/admin/membresias", isAuthenticated, isAdmin, renderMembresias);
 
 router.get("/admin/membresias/nueva", isAuthenticated, isAdmin, renderNuevaMembresia);
@@ -66,16 +70,5 @@ router.get("/admin/membresias/nueva", isAuthenticated, isAdmin, renderNuevaMembr
 router.post("/admin/membresias/nueva", isAuthenticated, isAdmin, crearMembresia);
 
 router.post("/admin/membresias/:id/renovar", isAuthenticated, isAdmin, renovarMembresia);
-
-/* LogOut */
-router.post("/logout", (req, res) => {
-  req.session.destroy((error) => {
-    if (error) {
-      console.error("Error al cerrar sesión:", error);
-      return res.status(500).send("Error al cerrar sesión");
-    }
-    res.redirect("/login");
-  });
-});
 
 export default router;
