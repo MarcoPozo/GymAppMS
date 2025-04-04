@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
-import { getUserWithRoleByEmail } from "../models/userModel.js";
+import { getUserWithRoleByEmail } from "../models/authModel.js";
 
 // Render login
 export const renderLogin = (req, res) => {

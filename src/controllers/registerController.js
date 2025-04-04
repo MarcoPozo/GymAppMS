@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { createUser } from "../models/userModel.js";
+import { createUser } from "../models/registerModel.js";
 
 // Render registro
 export const renderRegister = (req, res) => {

@@ -1,4 +1,4 @@
-import { deleteUserById, getAllUserWithRoles, getUserById, updateUserById } from "../models/userModel.js";
+import { deleteUserById, getAllUserWithRoles, getUserById, updateUserById } from "../models/adminUserModel.js";
 
 // Eliminar usuario
 export const eliminarUsuario = async (req, res) => {
