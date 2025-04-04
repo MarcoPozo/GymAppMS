@@ -6,8 +6,8 @@ import { renderHome } from "../controllers/viewsController.js";
 import { renderRegister, registerUser } from "../controllers/registerController.js";
 import { renderLogin, loginUser, logoutUser } from "../controllers/authController.js";
 import { renderAdminDashboard } from "../controllers/adminController.js";
+import { editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/adminUserController.js";
 import { renderClienteDashboard } from "../controllers/clienteController.js";
-import { editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/userController.js";
 import { renderMembresias, renderNuevaMembresia, crearMembresia, renovarMembresia } from "../controllers/membershipController.js";
 
 const router = Router();
@@ -27,6 +27,7 @@ router.post("/register", validatorRegister, registerUser);
 // Administrador
 
 router.get("/admin/dashboard", isAuthenticated, isAdmin, renderAdminDashboard);
+
 router.get("/admin/usuarios", isAuthenticated, isAdmin, renderUsuariosAdmin);
 router.delete("/admin/usuarios/:id", isAuthenticated, isAdmin, eliminarUsuario);
 router.get("/admin/usuarios/:id/editar", isAuthenticated, isAdmin, renderEditarUsuario);

@@ -29,7 +29,7 @@ export const renderUsuariosAdmin = async (req, res) => {
   }
 };
 
-// Render vista edicion
+// Render editar usuario
 export const renderEditarUsuario = async (req, res) => {
   const { id } = req.params;
   try {
