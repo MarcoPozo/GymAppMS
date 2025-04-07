@@ -28,9 +28,20 @@ export const crearNuevaMembresia = async (user_id, start_date, end_date) => {
 };
 
 export const renovarMembresiaPorId = async (id, nuevaFechaInicio, nuevaFechaFin) => {
-  await db.execute(`
+  await db.execute(
+    `
     UPDATE memberships 
     SET start_date = ?, end_date = ?, status = 'activa'
     WHERE id = ?
-  `, [nuevaFechaInicio, nuevaFechaFin, id]);
+  `,
+    [nuevaFechaInicio, nuevaFechaFin, id]
+  );
+};
+
+export const actualizarEstadosVencidos = async () => {
+  await db.execute(`
+    UPDATE memberships
+    SET status = 'Vencida'
+    WHERE end_date < CURDATE() AND status = 'Activa'
+  `);
 };

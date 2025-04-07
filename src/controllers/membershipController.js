@@ -1,20 +1,27 @@
 import { formatearFecha, fechaRelativa } from "../utils/formatearFecha.js";
-import { getAllMemberships, getUsuariosSinMembresia, crearNuevaMembresia, renovarMembresiaPorId } from "../models/membershipModel.js";
+import { getAllMemberships, getUsuariosSinMembresia, crearNuevaMembresia, renovarMembresiaPorId, actualizarEstadosVencidos } from "../models/membershipModel.js";
 
 export const renderMembresias = async (req, res) => {
-  const membresias = await getAllMemberships();
+  try {
+    await actualizarEstadosVencidos();
+    const membresias = await getAllMemberships();
 
-  const membresiasFormateadas = membresias.map((membresia) => ({
-    ...membresia,
-    fechaInicio: formatearFecha(membresia.start_date),
-    fechaFin: formatearFecha(membresia.end_date),
-    relativaFin: fechaRelativa(membresia.end_date),
-  }));
+    const membresiasFormateadas = membresias.map((membresia) => ({
+      ...membresia,
+      fechaInicio: formatearFecha(membresia.start_date),
+      fechaFin: formatearFecha(membresia.end_date),
+      relativaFin: fechaRelativa(membresia.end_date),
+    }));
 
-  res.render("adminMembresias", {
-    title: "Membresías",
-    membresias: membresiasFormateadas,
-  });
+    res.render("adminMembresias", {
+      title: "Membresías",
+      membresias: membresiasFormateadas,
+    });
+  } catch (error) {
+    console.error("Error al renderizar membresías:", error);
+    req.session.errorMessage = "Error al cargar membresías";
+    res.redirect("/admin/dashboard");
+  }
 };
 
 export const renderNuevaMembresia = async (req, res) => {
