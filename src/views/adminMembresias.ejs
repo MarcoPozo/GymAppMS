@@ -1,12 +1,9 @@
-<%- include('partials/header') %>
-<%- include('partials/navbarAdmin') %>
+<%- include('partials/header') %> <%- include('partials/navbarAdmin') %>
 
 <main class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] p-6">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold">Gestión de Membresías</h1>
-    <a href="/admin/membresias/nueva" class="bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-2 px-4 rounded">
-      + Nueva Membresía
-    </a>
+    <a href="/admin/membresias/nueva" class="bg-[var(--color-boton-cta)] hover:bg-[var(--color-hover-glow)] text-black font-semibold py-2 px-4 rounded"> + Nueva Membresía </a>
   </div>
 
   <table class="w-full border-collapse bg-[var(--color-fondo-secundario)] rounded-lg overflow-hidden">
@@ -30,8 +27,8 @@
         <td class="p-3 text-sm">
           <% if (m.relativaFin.includes("Venció")) { %>
           <span class="text-red-400"><%= m.relativaFin %></span>
-          <% } else if (m.relativaFin.includes("vence hoy")) { %>
-          <span class="text-yellow-400">Vence hoy</span>
+          <% } else if (m.relativaFin.includes("Vence hoy") || m.relativaFin.includes("Vence pronto")) { %>
+          <span class="text-yellow-400"><%= m.relativaFin %></span>
           <% } else { %>
           <span class="text-green-400"><%= m.relativaFin %></span>
           <% } %>
@@ -40,9 +37,7 @@
         <td class="p-3 capitalize"><%= m.status %></td>
         <td class="p-3">
           <form action="/admin/membresias/<%= m.id %>/renovar" method="POST">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-              Renovar
-            </button>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">Renovar</button>
           </form>
         </td>
       </tr>

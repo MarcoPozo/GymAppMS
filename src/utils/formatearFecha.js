@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, isToday } from "date-fns";
+import { format, formatDistanceToNow, formatDistanceStrict, isToday, differenceInDays, differenceInHours } from "date-fns";
 import { es } from "date-fns/locale";
 
 export const formatearFecha = (fecha) => {
@@ -10,17 +10,42 @@ export const fechaRelativa = (fecha) => {
   const ahora = new Date();
 
   if (isToday(fechaFin)) {
-    return "vence hoy";
+    return "Vence hoy";
+  }
+
+  const diffDays = differenceInDays(fechaFin, ahora);
+
+  if (fechaFin < ahora) {
+    const textoRelativo = formatDistanceToNow(fechaFin, {
+      addSuffix: true,
+      locale: es,
+    });
+    return `Venció ${textoRelativo}`;
+  }
+
+  if (diffDays <= 3) {
+    const diffHours = differenceInHours(fechaFin, ahora);
+
+    // Si faltan menos de 24 horas => mostrar en horas
+    if (diffHours < 24) {
+      const textoHoras = formatDistanceStrict(ahora, fechaFin, {
+        unit: "hour",
+        locale: es,
+      });
+      return `Vence pronto (${textoHoras})`;
+    }
+
+    // Si faltan más de 24 horas pero 3 días o menos => días
+    const textoDias = formatDistanceStrict(ahora, fechaFin, {
+      unit: "day",
+      locale: es,
+    });
+    return `Vence pronto (${textoDias})`;
   }
 
   const textoRelativo = formatDistanceToNow(fechaFin, {
-    addSuffix: true,
+    addSuffix: false,
     locale: es,
   });
-
-  if (fechaFin < ahora) {
-    return `Venció hace ${textoRelativo.replace("hace ", "")}`; // Venció hace 4 días
-  } else {
-    return `Vence en ${textoRelativo.replace("en ", "")}`; // Vence en 10 días
-  }
+  return `Vence en ${textoRelativo}`;
 };
