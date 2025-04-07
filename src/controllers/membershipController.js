@@ -1,6 +1,7 @@
 import { formatearFecha, fechaRelativa } from "../utils/formatearFecha.js";
 import { getAllMemberships, getUsuariosSinMembresia, crearNuevaMembresia, renovarMembresiaPorId, actualizarEstadosVencidos } from "../models/membershipModel.js";
 
+// Vista principal de membresías
 export const renderMembresias = async (req, res) => {
   try {
     await actualizarEstadosVencidos();
@@ -19,39 +20,58 @@ export const renderMembresias = async (req, res) => {
     });
   } catch (error) {
     console.error("Error al renderizar membresías:", error);
-    req.session.errorMessage = "Error al cargar membresías";
+    req.session.flash = {
+      type: "error",
+      title: "Error al cargar ❌",
+      message: "No se pudieron cargar las membresías.",
+    };
     res.redirect("/admin/dashboard");
   }
 };
 
+// Vista para crear nueva membresía
 export const renderNuevaMembresia = async (req, res) => {
   try {
     const users = await getUsuariosSinMembresia();
     res.render("adminNuevaMembresia", {
-      title: "Nueva Membresia",
+      title: "Nueva Membresía",
       users,
     });
   } catch (error) {
     console.error("Error al cargar el formulario de membresía:", error);
-    req.session.errorMessage = "No se pudo cargar el formulario.";
+    req.session.flash = {
+      type: "error",
+      title: "Error al cargar ❌",
+      message: "No se pudo cargar el formulario para crear una membresía.",
+    };
     res.redirect("/admin/dashboard");
   }
 };
 
+// Crear una membresía
 export const crearMembresia = async (req, res) => {
   const { user_id, start_date, end_date } = req.body;
 
   try {
     await crearNuevaMembresia(user_id, start_date, end_date);
-    req.session.successMessage = "Membresía creada correctamente";
+    req.session.flash = {
+      type: "success",
+      title: "Membresía creada ✅",
+      message: "La membresía fue registrada correctamente.",
+    };
     res.redirect("/admin/membresias");
   } catch (error) {
     console.error("Error al crear membresía:", error);
-    req.session.errorMessage = "No se pudo crear la membresía.";
+    req.session.flash = {
+      type: "error",
+      title: "Error al crear ❌",
+      message: "No se pudo registrar la membresía.",
+    };
     res.redirect("/admin/membresias/nueva");
   }
 };
 
+// Renovar una membresía
 export const renovarMembresia = async (req, res) => {
   const { id } = req.params;
 
@@ -62,11 +82,19 @@ export const renovarMembresia = async (req, res) => {
 
     await renovarMembresiaPorId(id, nuevaFechaInicio.toISOString().split("T")[0], nuevaFechaFin.toISOString().split("T")[0]);
 
-    req.session.successMessage = "Membresía renovada correctamente.";
+    req.session.flash = {
+      type: "success",
+      title: "Membresía renovada 🔁",
+      message: "La membresía fue renovada exitosamente por 1 mes.",
+    };
     res.redirect("/admin/membresias");
   } catch (error) {
     console.error("Error al renovar la membresía:", error);
-    req.session.errorMessage = "No se pudo renovar la membresía.";
+    req.session.flash = {
+      type: "error",
+      title: "Error al renovar ❌",
+      message: "No se pudo renovar la membresía.",
+    };
     res.redirect("/admin/membresias");
   }
 };

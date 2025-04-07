@@ -30,25 +30,3 @@
 </main>
 
 <%- include('partials/footer') %>
-
-<% if (successMessage) { %>
-<script>
-  Swal.fire({
-    icon: "success",
-    title: "Registro Exitoso ✅",
-    text: "<%= successMessage %>",
-    showConfirmButton: true,
-  });
-</script>
-<% } %>
-
-<% if (errorMessage) { %>
-<script>
-  Swal.fire({
-    icon: "error",
-    title: "Login Fallido ❌",
-    text: "<%= errorMessage %>",
-    showConfirmButton: true,
-  });
-</script>
-<% } %>

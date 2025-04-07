@@ -6,6 +6,8 @@ import { getUserWithRoleByEmail } from "../models/authModel.js";
 export const renderLogin = (req, res) => {
   res.render("login", {
     title: "Iniciar Sesión",
+    errors: [],
+    oldData: {},
   });
 };
 
@@ -27,14 +29,22 @@ export const loginUser = async (req, res) => {
     const user = await getUserWithRoleByEmail(email);
 
     if (!user) {
-      req.session.errorMessage = "Correo no registrado";
+      req.session.flash = {
+        type: "error",
+        title: "Usuario no encontrado ❌",
+        message: "El correo ingresado no está registrado.",
+      };
       return res.redirect("/login");
     }
 
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      req.session.errorMessage = "Contraseña incorrecta";
+      req.session.flash = {
+        type: "error",
+        title: "Contraseña inválida ❌",
+        message: "La contraseña ingresada es incorrecta.",
+      };
       return res.redirect("/login");
     }
 
@@ -46,7 +56,13 @@ export const loginUser = async (req, res) => {
       role: user.role,
     };
 
-    // Redireccion dependiendo del rol
+    req.session.flash = {
+      type: "success",
+      title: "Bienvenido 👋",
+      message: `Hola ${user.full_name}, has iniciado sesión correctamente.`,
+    };
+
+    // Redirección dependiendo del rol
     if (user.role === "admin") {
       return res.redirect("/admin/dashboard");
     } else {
@@ -54,12 +70,16 @@ export const loginUser = async (req, res) => {
     }
   } catch (error) {
     console.error("Error al iniciar sesión:", error);
-    req.session.errorMessage = "Error interno. Inténtalo nuevamente.";
+    req.session.flash = {
+      type: "error",
+      title: "Error interno ❌",
+      message: "Ocurrió un problema al iniciar sesión. Inténtalo nuevamente.",
+    };
     return res.redirect("/login");
   }
 };
 
-//LogOut User
+// Logout
 export const logoutUser = (req, res) => {
   req.session.destroy((error) => {
     if (error) {

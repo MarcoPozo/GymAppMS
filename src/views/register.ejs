@@ -51,14 +51,3 @@
 </section>
 
 <%- include('partials/footer') %>
-
-<% if (errorMessage) { %>
-<script>
-  Swal.fire({
-    icon: "error",
-    title: "Registro Fallido ❌",
-    text: "<%= errorMessage %>",
-    showConfirmButton: true,
-  });
-</script>
-<% } %>

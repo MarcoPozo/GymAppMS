@@ -1,0 +1,10 @@
+<% if (flash) { %>
+<script>
+  Swal.fire({
+    icon: "<%= flash.type %>",
+    title: "<%= flash.title %>",
+    text: "<%= flash.message %>",
+    showConfirmButton: true,
+  });
+</script>
+<% } %>

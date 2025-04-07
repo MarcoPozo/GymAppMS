@@ -7,7 +7,6 @@ export const renderRegister = (req, res) => {
     title: "Registrar",
     errors: [],
     oldData: {},
-    errorMessage: null,
   });
 };
 
@@ -20,7 +19,6 @@ export const registerUser = async (req, res) => {
       title: "Registrarse",
       errors: errors.array(),
       oldData: req.body,
-      errorMessage: "Por favor corrige los errores del formulario",
     });
   }
 
@@ -28,12 +26,23 @@ export const registerUser = async (req, res) => {
 
   try {
     await createUser({ full_name, cedula, phone, address, email, password });
-    req.session.successMessage = "Usuario registrado correctamente. ¡Ahora inicia sesión!";
+
+    req.session.flash = {
+      type: "success",
+      title: "Registro exitoso ✅",
+      message: "Usuario registrado correctamente. ¡Ahora inicia sesión!",
+    };
+
     res.redirect("/login");
   } catch (error) {
     console.error("Error al registrar usuario:", error);
 
-    req.session.errorMessage = "Error interno al registrar. Inténtalo nuevamente";
+    req.session.flash = {
+      type: "error",
+      title: "Error en el registro ❌",
+      message: "Hubo un problema al registrar. Inténtalo nuevamente.",
+    };
+
     res.redirect("/register");
   }
 };
