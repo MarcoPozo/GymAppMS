@@ -1,5 +1,6 @@
 import { formatearFecha, fechaRelativa } from "../utils/formatearFecha.js";
-import { getAllMemberships, getUsuariosSinMembresia, crearNuevaMembresia, renovarMembresiaPorId, actualizarEstadosVencidos } from "../models/membershipModel.js";
+import { getAllMemberships, getUsuariosSinMembresia, crearNuevaMembresia, renovarMembresiaPorId, actualizarEstadosVencidos, getUsuarioById } from "../models/membershipModel.js";
+import { enviarCorreo } from "../utils/enviarCorreo.js";
 
 // Vista principal de membresías
 export const renderMembresias = async (req, res) => {
@@ -54,6 +55,22 @@ export const crearMembresia = async (req, res) => {
 
   try {
     await crearNuevaMembresia(user_id, start_date, end_date);
+
+    const usuario = await getUsuarioById(user_id);
+
+    await enviarCorreo({
+      to: usuario.email,
+      subject: "Membresía creada en GymAppMS",
+      html: `
+        <h2>¡Hola ${usuario.full_name}!</h2>
+        <p>Tu membresía ha sido creada exitosamente 🎉</p>
+        <p><strong>Inicio:</strong> ${start_date}</p>
+        <p><strong>Fin:</strong> ${end_date}</p>
+        <br>
+        <p>Gracias por ser parte de <strong>GymAppMS</strong>.</p>
+      `,
+    });
+
     req.session.flash = {
       type: "success",
       title: "Membresía creada ✅",

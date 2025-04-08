@@ -45,3 +45,8 @@ export const actualizarEstadosVencidos = async () => {
     WHERE end_date < CURDATE() AND status = 'Activa'
   `);
 };
+
+export const getUsuarioById = async (id) => {
+  const [rows] = await db.execute("SELECT full_name, email FROM users WHERE id = ?", [id]);
+  return rows[0];
+};
