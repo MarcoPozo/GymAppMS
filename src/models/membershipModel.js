@@ -50,3 +50,15 @@ export const getUsuarioById = async (id) => {
   const [rows] = await db.execute("SELECT full_name, email FROM users WHERE id = ?", [id]);
   return rows[0];
 };
+
+export const getMembresiasPorVencer = async (diasDesde = 0, diasHasta = 3) => {
+  const [rows] = await db.execute(
+    `SELECT m.*, u.email, u.full_name
+     FROM memberships m
+     JOIN users u ON m.user_id = u.id
+     WHERE DATEDIFF(m.end_date, CURDATE()) BETWEEN ? AND ? 
+     AND m.status = 'activa'`,
+    [diasDesde, diasHasta]
+  );
+  return rows;
+};
