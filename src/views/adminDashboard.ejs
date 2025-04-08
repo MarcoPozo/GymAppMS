@@ -1,8 +1,34 @@
 <%- include('partials/header.ejs') %>
 <%- include('partials/navbarAdmin.ejs') %>
 
-<main class="text-center text-white p-6">
-  <h1 class="text-2xl font-bold">Bienvenido, <%= user.full_name %></h1>
-  <p class="mt-2">Estás en el panel de administración.</p>
+<main class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] p-6">
+  <h1 class="text-2xl font-bold mb-6">Panel de Administración</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Total Usuarios -->
+    <div class="bg-[var(--color-fondo-secundario)] p-5 rounded-xl shadow-lg border border-[var(--color-lunar-principal)]">
+      <h2 class="text-lg font-semibold text-[var(--color-acento-cosmico)]">Usuarios Registrados</h2>
+      <p class="text-3xl font-bold mt-2"><%= totalUsuarios %></p>
+    </div>
+
+    <!-- Membresías activas -->
+    <div class="bg-[var(--color-fondo-secundario)] p-5 rounded-xl shadow-lg border border-[var(--color-lunar-principal)]">
+      <h2 class="text-lg font-semibold text-green-400">Membresías Activas</h2>
+      <p class="text-3xl font-bold mt-2"><%= activas %></p>
+    </div>
+
+    <!-- Membresías vencidas -->
+    <div class="bg-[var(--color-fondo-secundario)] p-5 rounded-xl shadow-lg border border-[var(--color-lunar-principal)]">
+      <h2 class="text-lg font-semibold text-red-400">Membresías Vencidas</h2>
+      <p class="text-3xl font-bold mt-2"><%= vencidas %></p>
+    </div>
+
+    <!-- Por vencer -->
+    <div class="bg-[var(--color-fondo-secundario)] p-5 rounded-xl shadow-lg border border-[var(--color-lunar-principal)]">
+      <h2 class="text-lg font-semibold text-yellow-400">Por Vencer (3 días)</h2>
+      <p class="text-3xl font-bold mt-2"><%= porVencer %></p>
+    </div>
+  </div>
 </main>
+
 <%- include('partials/footer.ejs') %>
