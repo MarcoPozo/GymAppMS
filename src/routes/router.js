@@ -9,6 +9,7 @@ import { renderAdminDashboard } from "../controllers/adminController.js";
 import { editarUsuario, renderUsuariosAdmin, renderEditarUsuario, eliminarUsuario } from "../controllers/adminUserController.js";
 import { renderClienteDashboard } from "../controllers/clienteController.js";
 import { renderMembresias, renderNuevaMembresia, crearMembresia, renovarMembresia } from "../controllers/membershipController.js";
+import { renderAccessLog } from "../controllers/accessLogController.js";
 
 const router = Router();
 
@@ -41,5 +42,8 @@ router.get("/admin/membresias", isAuthenticated, isAdmin, renderMembresias);
 router.get("/admin/membresias/nueva", isAuthenticated, isAdmin, renderNuevaMembresia);
 router.post("/admin/membresias/nueva", isAuthenticated, isAdmin, crearMembresia);
 router.post("/admin/membresias/:id/renovar", isAuthenticated, isAdmin, renovarMembresia);
+
+// Access Logs
+router.get("/admin/logs", isAuthenticated, isAdmin, renderAccessLog);
 
 export default router;
