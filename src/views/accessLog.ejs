@@ -1,8 +1,36 @@
-<%- include('partials/header.ejs') %> 
+<%- include('partials/header.ejs') %>
 <%- include('partials/navbarAdmin.ejs') %>
 
 <main class="min-h-screen bg-[var(--color-fondo-principal)] text-[var(--color-texto-principal)] p-6">
-  <h1 class="text-2xl font-bold mb-6">Access Logs</h1>
+  <h1 class="text-2xl font-bold mb-6">Registro de Accesos</h1>
+
+  <% if (logs.length === 0) { %>
+  <div class="w-full bg-[var(--color-fondo-secundario)] border border-dashed border-[var(--color-lunar-principal)] p-6 rounded-lg text-center shadow-inner">
+    <p class="text-lg text-[var(--color-texto-secundario)] font-[var(--font-exo)]">
+      <i class="fa-solid fa-circle-info text-[var(--color-acento-cosmico)] mr-2"></i>
+      No hay usuarios registrados actualmente.
+    </p>
+  </div>
+  <% } else { %>
+  <table class="w-full border-collapse bg-[var(--color-fondo-secundario)] rounded-lg overflow-hidden">
+    <thead class="bg-[var(--color-acento-cosmico)] text-white">
+      <tr>
+        <th class="p-3 text-left">#</th>
+        <th class="p-3 text-left">Nombre</th>
+        <th class="p-3 text-left">Fecha y Hora</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logs.forEach((log, index) => { %>
+      <tr class="border-t border-[var(--color-lunar-principal)] hover:bg-gray-800">
+        <td class="p-3"><%= index + 1 %></td>
+        <td class="p-3"><%= log.full_name %></td>
+        <td class="p-3"><%= new Date(log.access_time).toLocaleString() %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% } %>
 </main>
 
 <%- include('partials/footer.ejs') %>

@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 import { getUserWithRoleByEmail } from "../models/authModel.js";
+import { registrarAcceso } from "../models/accessLogModel.js";
 
 // Render login
 export const renderLogin = (req, res) => {
@@ -55,6 +56,8 @@ export const loginUser = async (req, res) => {
       email: user.email,
       role: user.role,
     };
+
+    await registrarAcceso(user.id);
 
     req.session.flash = {
       type: "success",
